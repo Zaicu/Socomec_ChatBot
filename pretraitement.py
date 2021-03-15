@@ -86,6 +86,14 @@ def question_treatement(question) :
 
 
 
+#retourne le product id pour une ligne donnée
+def product_id(line) : 
+    return(Products['Product ID'][line])
+
+
+
+
+
 #mesure de distance entre deux phrases en utilisant
 #la mesure de similarité de Jaccard.
 def distance_measurement(s1, s2) :
@@ -102,7 +110,7 @@ def distance_measurement(s1, s2) :
 #la description courte de la database. 
 def best_similarity(Product) : 
     m = 0 
-    i = 1
+    i = 0
     l = i
     best_line = ""
     for line in Products['Description courte'] :
@@ -125,6 +133,7 @@ def main() :
     print("best distance :", m) 
     print("at line :" , line) 
     print("description :", best_line)
+    print("product id :", product_id(line))
 
 phrase2 = "Quelle est le voltage de l'interrupteur-sectionneur 3P 160A ?"
 
