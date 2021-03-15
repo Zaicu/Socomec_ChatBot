@@ -1,0 +1,14 @@
+{
+    "SIRCO" : {
+        "class" : "Product",
+        "synonym" : ["interrupteur", "switch"]
+    },
+    "Tension" : {
+        "class" : "Feature",
+        "synonym" : ["voltage"]
+    },
+    "Fonctionnement" : {
+        "class" : "Précision", 
+        "synonym" : ["fonctionne", "fonctionnent", "fctionnement"]
+    }
+}
