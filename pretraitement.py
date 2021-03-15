@@ -25,6 +25,9 @@ f = open('synonymes.json')
 synonymes = json.load(f)
 #fermer le pauvre json
 
+
+
+#fonction recherche d'appartenance d'un objet à une liste
 def is_in_list(object, list) :
     n = len(list) 
     i = 0 
@@ -32,6 +35,10 @@ def is_in_list(object, list) :
         i = i+1 
     return(i<n) 
 
+
+
+#tokenisation, classification des termes significatifs de la question
+#grâce au dictionnaire des synonymes synonymes.json
 def question_treatement(question) :
     question = question.replace("'", " ")
     bag_of_words = word_tokenize(question)
@@ -78,6 +85,9 @@ def question_treatement(question) :
     return(Product, Feature) 
 
 
+
+#mesure de distance entre deux phrases en utilisant
+#la mesure de similarité de Jaccard.
 def distance_measurement(s1, s2) :
     list1 = word_tokenize(s1)
     list2 = word_tokenize(s2)
@@ -86,6 +96,10 @@ def distance_measurement(s1, s2) :
     return (float(intersection) / union)
 
 
+
+
+#calcule la similarité entre le produit recherché
+#la description courte de la database. 
 def best_similarity(Product) : 
     m = 0 
     i = 1
