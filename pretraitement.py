@@ -21,7 +21,7 @@ stop_words.add("bonjour")
 stop_words.add("svp")
 stop_words.add("bonsoir")
 
-f = open('synonymes.json')
+f = open('test_synonyms.json')
 synonymes = json.load(f)
 #fermer le pauvre json
 
