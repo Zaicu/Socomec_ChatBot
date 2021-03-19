@@ -2,10 +2,15 @@ import pandas as pd
 import re
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
+from nltk.corpus import wordnet
 import numpy as np
+import spacy 
 import json
 
-xls = pd.ExcelFile('../socomec_chatbot/product_data_1.xlsx')
+import nltk
+nltk.download('wordnet')
+
+xls = pd.ExcelFile('../product_data_1.xlsx')
 Products = pd.read_excel(xls, 'Products')
 clas = Products.iloc[3,4]
 Class1 = pd.read_excel(xls, clas)
@@ -91,12 +96,9 @@ def question_treatement(question) :
 	return(Product, Feature)
 
 
-
 #retourne le product id pour une ligne donnée
 def product_id(line) :
 	return(Products['Product ID'][line])
-
-
 
 
 
@@ -128,8 +130,11 @@ def best_similarity(Product) :
 		i = i+1 ;
 	return(m, l, best_line)
 
+
+
+#retourner l'ensemble sans doublons contenant tous les produits 
 def set_product():
-	set_produit = set(['test'])
+	set_produit = set()
 	for ligne in range(1, 13677):
 		produit = Products['Description courte'][ligne]
 		if (produit == produit and produit != 0):
@@ -142,6 +147,13 @@ def set_product():
 			set_produit = set_produit.union(set(filtered_sentence))
 
 	return set_produit
+
+
+
+def word_similarity(set_of_products, set_of_features, sentence) :
+	product = 0 
+	feature = 0 
+	return(product, feature)
 
 def main() :
 	phrase = "Quelle est la tension de fonctionnement du SIRCO 3x16 Ampères ?"
@@ -159,12 +171,19 @@ def main() :
 	print(set_produit)
 	print(set_produit.intersection(set(filtered_sentence)))
 
-phrase2 = "Quelle est le voltage de l'interrupteur-sectionneur 3P 160A ?"
+# phrase2 = "Quelle est le voltage de l'interrupteur-sectionneur 3P 160A ?"
 
-(P, F) = question_treatement(phrase2)
+# (P, F) = question_treatement(phrase2)
 
-print("Produit :", P)
-print("Feature :", F)
+# print("Produit :", P)
+# print("Feature :", F)
 
-print("Execution du main :")
-main()
+# print("Execution du main :")
+# main()
+
+token1 = "coucou"
+token2 = "Couucou"
+t1 = wordnet.synsets(token1)[0]
+t2 = wordnet.synsets(token2)[0]
+s = t1.wup_similarity(t2)
+print(s)

@@ -5,7 +5,7 @@ from nltk.corpus import stopwords
 import numpy as np
 import json
 
-xls = pd.ExcelFile('../socomec_chatbot/product_data_1.xlsx')
+xls = pd.ExcelFile('../product_data_1.xlsx', skiprows=[0])
 Products = pd.read_excel(xls, 'Products')
 Sirco = pd.read_excel(xls, 'EC000216')
 Fuserbloc = pd.read_excel(xls, 'EC001040')
