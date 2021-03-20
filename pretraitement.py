@@ -11,7 +11,7 @@ import nltk
 nltk.download('wordnet')
 
 xls = pd.ExcelFile('../product_data_1.xlsx')
-Products = pd.read_excel(xls, 'Products')
+Products = pd.read_excel(xls, 'Products', skiprows=[0])
 clas = Products.iloc[3,4]
 Class1 = pd.read_excel(xls, clas)
 
@@ -45,7 +45,8 @@ def is_in_list(object, list) :
 # filtre une phrase en renvoyant le tableau
 def filter_the_sentence(sentence):
 	sentence = sentence.replace("'", " ")
-	bag_of_words = word_tokenize(sentence)
+	sentence = re.sub('([0-9]+) *[xX*] *([0-9]+)', "\g<1>x\g<2>", sentence)
+	bag_of_words = word_tokenize(sentence.lower())
 
 	filtered_sentence = []
 
@@ -150,26 +151,59 @@ def set_product():
 
 
 
-def word_similarity(set_of_products, set_of_features, sentence) :
-	product = 0 
-	feature = 0 
-	return(product, feature)
+def word_similarity(set_of_products, set_of_features, sentence_product, sentence_feature) :
+	list_of_products = list(set_of_products)
+	list_of_features = list(set_of_features)
+
+	dist_prod = []
+	dist_feat = []
+
+
+	for word in sentence_product :
+
+		best_product = list_of_products[0]
+		best_distance_p = nltk.edit_distance(list_of_products[0], word) 
+		best_feature = list_of_features[0]
+		best_distance_f = nltk.edit_distance(list_of_features[0], word) 
+
+		for product in list_of_products :
+			distance = nltk.edit_distance(product, word) 
+			if distance < best_distance_p : #en cas d'égalité ? à améliorer
+				best_product = product 
+				best_distance_p = distance 
+
+		dist_prod.append((best_distance_p,best_product))
+
+	for word in sentence_feature :
+
+		for feature in list_of_features :
+			distance = nltk.edit_distance(feature, word) 
+			if distance < best_distance_f : #en cas d'égalité ? à améliorer
+				best_feature = feature 
+				best_distance_f = distance 
+		
+		dist_feat.append((best_distance_f,best_feature)) 
+
+	return(dist_prod, dist_feat)
 
 def main() :
 	phrase = "Quelle est la tension de fonctionnement du SIRCO 3x16 Ampères ?"
 	(P, F) = question_treatement(phrase)
-	print("Produit :", P)
-	print("Feature :", F)
+
 	(m, line, best_line) = best_similarity(P)
-	print("best distance :", m)
-	print("at line :" , line)
-	print("description :", best_line)
-	print("product id :", product_id(line))
 
 	set_produit = set_product()
-	filtered_sentence = filter_the_sentence(phrase)
-	print(set_produit)
-	print(set_produit.intersection(set(filtered_sentence)))
+	sentence_feature = filter_the_sentence(phrase)
+	
+	sentence_product = filter_the_sentence(re.sub('([0-9]) *(AmpèresAmpère|amp|ampères|ampère|ampere|Amp|Ampere)', "\g<1>A", phrase))
+
+	(d,f) = word_similarity(set_produit, set(["Ampère","Tension"]), sentence_product, sentence_feature) 
+
+	print(d) 
+	print(f)
+
+#entre '3x16A' et '3x6' il ya le même nombre de différences avec le terme '3x16' donc PROBLEME
+#considérer l'ensemble "3x16 Ampères" 
 
 # phrase2 = "Quelle est le voltage de l'interrupteur-sectionneur 3P 160A ?"
 
@@ -179,11 +213,11 @@ def main() :
 # print("Feature :", F)
 
 # print("Execution du main :")
-# main()
+
+main()
 
 token1 = "coucou"
-token2 = "Couucou"
-t1 = wordnet.synsets(token1)[0]
-t2 = wordnet.synsets(token2)[0]
-s = t1.wup_similarity(t2)
+token2 = "oucouc"
+import nltk
+s = nltk.edit_distance(token1, token2)
 print(s)
