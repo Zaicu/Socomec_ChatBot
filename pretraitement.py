@@ -28,11 +28,6 @@ stop_words.add("bonsoir")
 stop_words.add(".")
 stop_words.add(",")
 
-f = open('test_synonyms.json')
-synonymes = json.load(f)
-#fermer le pauvre json
-
-
 
 #fonction recherche d'appartenance d'un objet à une liste
 def is_in_list(object, list) :
@@ -47,7 +42,7 @@ def filter_the_sentence(sentence):
 	sentence = sentence.replace("'", " ")
 	sentence = re.sub('([0-9]+) *[xX*] *([0-9]+)', "\g<1>x\g<2>", sentence)
 	bag_of_words = word_tokenize(sentence.lower())
-
+	sentence = re.sub('([0-9]) *(Ampères|Ampère|ampères|ampère|ampere|Amp|amp)', "\g<1>A", sentence)
 	filtered_sentence = []
 
 	for w in bag_of_words:
@@ -55,51 +50,6 @@ def filter_the_sentence(sentence):
 			filtered_sentence.append(w)
 	return filtered_sentence
 
-#tokenisation, classification des termes significatifs de la question
-#grâce au dictionnaire des synonymes synonymes.json
-def question_treatement(question) :
-	filtered_sentence = filter_the_sentence(question)
-
-	print("filtered sentence :" , filtered_sentence)
-
-	word_class = []
-
-	for w in filtered_sentence :
-		print("word :", w)
-		n = len(synonymes)
-		i = 0
-		for key in synonymes :
-			if (w.lower() == key.lower()) :
-				word_class.append((w,synonymes[key]["class"]))
-				continue
-			elif is_in_list(w, synonymes[key]["synonym"]) :
-				word_class.append((w,synonymes[key]["class"]))
-				continue
-			else :
-				i = i+1
-		print ("i = ", i)
-		if (i == n) :
-			word_class.append((w, "Other"))
-
-	print(word_class)
-
-	Product = ""
-	Feature = ""
-	for (w, c) in word_class :
-		if (c == "Product") :
-			Product += w
-			Product += " "
-
-		elif (c == "Feature") :
-			Feature += w
-			Feature += " "
-
-	return(Product, Feature)
-
-
-#retourne le product id pour une ligne donnée
-def product_id(line) :
-	return(Products['Product ID'][line])
 
 
 
@@ -118,18 +68,32 @@ def distance_measurement(s1, s2) :
 #calcule la similarité entre le produit recherché
 #la description courte de la database.
 def best_similarity(Product) :
-	m = 0
+	m1 = 0
 	i = 0
-	l = i
-	best_line = ""
+	l1 = i
+	best_line1 = ""
+	best_line2 = ""
 	for line in Products['Description courte'] :
-		dist = distance_measurement(Product, str(line))
-		if dist > m :
-			m = dist
-			l = i
-			best_line = str(line)
+		dist = distance_measurement(Product, str(line).lower())
+		if dist > m1 :
+			m1 = dist
+			l1 = i
+			best_line1 = str(line)
 		i = i+1 ;
-	return(m, l, best_line)
+	i = 0 
+	m2 = 0
+	l2 = i
+	for line in Products['Description longue FR'] :
+		dist = distance_measurement(Product, str(line).lower())
+		if dist > m2 :
+			m2 = dist
+			l2 = i
+			best_line2 = str(line)
+		i = i+1 ;
+	if m1 > m2 : 
+		return(m1, l1, best_line1)
+	else : 
+		return(m2, l2, best_line2)
 
 
 
@@ -137,70 +101,130 @@ def best_similarity(Product) :
 def set_product():
 	set_produit = set()
 	for ligne in range(1, 13677):
-		produit = Products['Description courte'][ligne]
-		if (produit == produit and produit != 0):
-			filtered_sentence = filter_the_sentence(produit)
-			set_produit = set_produit.union(set(filtered_sentence))
+		ec = Products['ETIM class code'][ligne]
+		if (ec == 'EC000216')or(ec == 'EC001040')or(ec == 'EC002301')or(ec == 'EC001506'):
+			produit = Products['Description courte'][ligne]
+			if (produit == produit and produit != 0):
+				filtered_sentence = filter_the_sentence(produit)
+				set_produit = set_produit.union(set(filtered_sentence))
 
-		produit = Products['Description longue FR'][ligne]
-		if (produit == produit and produit != 0):
-			filtered_sentence = filter_the_sentence(produit)
-			set_produit = set_produit.union(set(filtered_sentence))
+			produit = Products['Description longue FR'][ligne]
+			if (produit == produit and produit != 0):
+				filtered_sentence = filter_the_sentence(produit)
+				set_produit = set_produit.union(set(filtered_sentence))
 
 	return set_produit
 
 
 
-def word_similarity(set_of_products, set_of_features, sentence_product, sentence_feature) :
-	list_of_products = list(set_of_products)
-	list_of_features = list(set_of_features)
+def word_similarity(set, sentence) :
+	list_ = list(set)
+	dist = []
 
-	dist_prod = []
-	dist_feat = []
+	for word in sentence :
 
+		best_in_set = list_[0]
+		best_distance = nltk.edit_distance(list_[0], word) 
 
-	for word in sentence_product :
+		for word_set in list_ :
+			distance = nltk.edit_distance(word.lower(), word_set.lower()) 
+			if distance < best_distance : #en cas d'égalité ? à améliorer
+				best_in_set = word_set.lower()
+				best_distance = distance
+			# if distance == best_distance and distance == 0 : 
+			# 	best_in_set = word_set 
+			# 	best_distance = distance
+			# 	dist.append((best_distance,best_in_set))
 
-		best_product = list_of_products[0]
-		best_distance_p = nltk.edit_distance(list_of_products[0], word) 
-		best_feature = list_of_features[0]
-		best_distance_f = nltk.edit_distance(list_of_features[0], word) 
+		dist.append((best_distance,best_in_set))
 
-		for product in list_of_products :
-			distance = nltk.edit_distance(product, word) 
-			if distance < best_distance_p : #en cas d'égalité ? à améliorer
-				best_product = product 
-				best_distance_p = distance 
+	return(dist)
 
-		dist_prod.append((best_distance_p,best_product))
+def identify_product(best_matches) :
+	product = []
+	for (n,w) in best_matches : 
+		if n <= 2 : 
+			product.append(w)
+	
+	return(product)
 
-	for word in sentence_feature :
+def identify_feature(best_matches) :
+	feature = []
+	for (n,w) in best_matches : 
+		if n <= 2 : 
+			feature.append(w)
+	
+	return(feature)
 
-		for feature in list_of_features :
-			distance = nltk.edit_distance(feature, word) 
-			if distance < best_distance_f : #en cas d'égalité ? à améliorer
-				best_feature = feature 
-				best_distance_f = distance 
+def ambiguous_words(product, feature, sentence) :
+	ambiguous = list(set(product)&set(feature)) 
+
+	#on essaie de déterminer si le mot ambigu est une feature ou fait partie de la description du produit
+	#en mesurant sa distance aux autres mots du produit 
+
+	for ambiguous_words in ambiguous :
+		count = 0
+		activate_count = False 
+		for words in word_tokenize(sentence.lower()) : 
+			if is_in_list(words, list(stop_words)) and not activate_count : 
+				continue
+			elif is_in_list(words, list(stop_words)) and activate_count : 
+				count = count + 1 
+			elif (is_in_list(words.lower(), product) or ambiguous_words == words.lower()) and not activate_count : 
+				activate_count = True 
+			elif (is_in_list(words.lower(), product) or ambiguous_words == words.lower() )and activate_count : 
+				activate_count = False
+			elif activate_count : 
+				count = count + 1 
 		
-		dist_feat.append((best_distance_f,best_feature)) 
+		if count >= 2 : 
+			product.remove(ambiguous_words)
+		else : 
+			feature.remove(ambiguous_words)
+		
+		return(product, feature)
+	
 
-	return(dist_prod, dist_feat)
+def product_id(product) :
+	m, l, best_line = best_similarity(product)
+	return(Products['Product ID'][l], best_line)
+	
+	
 
 def main() :
-	phrase = "Quelle est la tension de fonctionnement du SIRCO 3x16 Ampères ?"
-	(P, F) = question_treatement(phrase)
-
-	(m, line, best_line) = best_similarity(P)
+	phrase = "Quelle est le voltage de l'interrupteur-sectionneur 3P 160A ?"
 
 	set_produit = set_product()
-	sentence_feature = filter_the_sentence(phrase)
+	set_feature = set(["ampère","tension", "voltage", "ampérage"])
+
+	# sentence = filter_the_sentence(re.sub('([0-9]) *(Ampères|Ampère|ampères|ampère|ampere|Amp|amp)', "\g<1>A", phrase))
+	sentence = filter_the_sentence(phrase)
 	
-	sentence_product = filter_the_sentence(re.sub('([0-9]) *(AmpèresAmpère|amp|ampères|ampère|ampere|Amp|Ampere)', "\g<1>A", phrase))
+	p = word_similarity(set_produit, sentence) 
+	f = word_similarity(set_feature, sentence) 
 
-	(d,f) = word_similarity(set_produit, set(["Ampère","Tension"]), sentence_product, sentence_feature) 
+	product = identify_product(p) 
+	feature = identify_feature(f) 
 
-	print(d) 
-	print(f)
+	print("words that could be part of the product description :", product) 
+	print("words that could be the feature :", feature)
+
+	print("words that are part of both :", list(set(product)&set(feature)))
+
+	p, f = ambiguous_words(product, feature, phrase)
+
+	print ("The product is :" , p) 
+	print ("The Feature is :", f) 
+
+	product = ""
+	for w in p : 
+		product += w 
+		product += " "
+	
+	p_ID, database_product = product_id(product)
+	print("The product has been identified as :" , database_product) 
+	print("Product ID :", p_ID)
+
 
 #entre '3x16A' et '3x6' il ya le même nombre de différences avec le terme '3x16' donc PROBLEME
 #considérer l'ensemble "3x16 Ampères" 
@@ -216,8 +240,3 @@ def main() :
 
 main()
 
-token1 = "coucou"
-token2 = "oucouc"
-import nltk
-s = nltk.edit_distance(token1, token2)
-print(s)
