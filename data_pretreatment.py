@@ -15,7 +15,7 @@ nltk.download('wordnet')
 
 
 def define_database() :
-	xls = pd.ExcelFile('../socomec_chatbot/product_data_1.xlsx')
+	xls = pd.ExcelFile('../product_data_1.xlsx')
 	Products = pd.read_excel(xls, 'Products', skiprows = [0])
 	clas = Products.iloc[3,4]
 	Class1 = pd.read_excel(xls, clas)
