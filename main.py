@@ -5,7 +5,7 @@ import utiles
 
 def main() :
 	database = data_pretreatment.define_database()
-	phrase = "Quelle est le voltage de l'interrupteur-sectionneur 3*16 Ampères ?"
+	phrase = "Quel est la tension de fonctionnement du SIRCO 3x16A"
 
 	set_produit = data_pretreatment.set_product()
 	set_feature = set(["ampère","tension", "voltage", "ampérage"])

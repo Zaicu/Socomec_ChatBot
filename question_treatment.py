@@ -23,6 +23,8 @@ stop_words.add("svp")
 stop_words.add("bonsoir")
 stop_words.add(".")
 stop_words.add(",")
+stop_words.add("’")
+stop_words.add("-")
 
 
 
