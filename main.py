@@ -1,34 +1,39 @@
-import data_pretreatment
+from data_processing import define_database
+from data_processing import products_set_and_dictionary
+
+
 import question_treatment
-import utiles
+import tools
 
 
 def main() :
-	database = data_pretreatment.define_database()
-	phrase = "Quel est la tension de fonctionnement du SIRCO 3x16A"
+	database = define_database()
+	#question = input("Veuillez poser votre question.")
+	question = "sharis avec 2 moulateur de 120 volts et sans batterie"
 
-	set_produit = data_pretreatment.set_product()
-	set_feature = set(["ampère","tension", "voltage", "ampérage"])
+	products_set, dictionary = products_set_and_dictionary(database)
+	features_set = set(["ampère","tension", "voltage", "ampérage, courant"])
 
-	# sentence = filter_the_sentence(re.sub('([0-9]) *(Ampères|Ampère|ampères|ampère|ampere|Amp|amp)', "\g<1>A", phrase))
-	sentence = question_treatment.filter_the_sentence(phrase)
-	print(sentence)
 
-	p = utiles.word_similarity(set_produit, sentence)
-	f = utiles.word_similarity(set_feature, sentence)
+	# sentence = sentence_filter(re.sub('([0-9]) *(Ampères|Ampère|ampères|ampère|ampere|Amp|amp)', "\g<1>A", question))
+	sentence = tools.sentence_filter(question)
+	print(question_treatment.score(sentence, dictionary))
 
-	product = question_treatment.identify_product(p)
-	feature = question_treatment.identify_feature(f)
+	product = question_treatment.identify_product(sentence, products_set)
+	feature = question_treatment.identify_feature(sentence, features_set)
+
 
 	print("words that could be part of the product description :", product)
 	print("words that could be the feature :", feature)
 
 	print("words that are part of both :", list(set(product)&set(feature)))
 
-	p, f = question_treatment.ambiguous_words(product, feature, phrase)
+	p, f = question_treatment.ambiguous_words(product, feature, question)
 
 	print ("The product is :" , p)
 	print ("The Feature is :", f)
+
+	etim_class = question_treatment.identify_Etim_class(p, dictionary)
 
 	product = ""
 	for w in p :
