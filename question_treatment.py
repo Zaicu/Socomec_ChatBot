@@ -25,6 +25,23 @@ stop_words.add(",")
 stop_words.add("’")
 stop_words.add("-")
 
+
+def exchange(tab, i, j) :
+	aux = tab[i]
+	tab[i] = tab[j] 
+	tab[j] = aux 
+
+
+
+#n : endroit où est placé elem dans le tab 
+def insertion_sort (tab, n) : 
+	i = n-1
+	while (i >= 0) and (tab[i+1][0] > tab[i][0]) :
+		exchange(tab, i, i+1) 
+		i = i-1 
+
+
+
 #product is the result of the  'identify_product'
 def identify_Etim_class(Product, dictionary) :
 	prdiction_etim_class = score(Product, dictionary)
@@ -35,35 +52,35 @@ def identify_Etim_class(Product, dictionary) :
 	print(prdiction_etim_class[0][0])
 
 
+
 #calcule la similarité entre le produit recherché
 #la description courte de la database.
 def best_similarity(Product, database) :
-	m1 = 0
+	ten_most_similar = [0 for i in range (11)]
+	m = 0 
+	l = 0 
+	best_line = ""
+	
 	i = 0
-	l1 = i
-	best_line1 = ""
-	best_line2 = ""
-	for line in database['Description courte'] :
-		dist = tools.jaccard_similarity(Product, str(line).lower())
-		if dist > m1 :
-			m1 = dist
-			l1 = i
-			best_line1 = str(line)
-		i = i+1 ;
-	i = 0
-	m2 = 0
-	l2 = i
-	for line in database['Description longue FR'] :
-		dist = tools.jaccard_similarity(Product, str(line).lower())
-		if dist > m2 :
-			m2 = dist
-			l2 = i
-			best_line2 = str(line)
-		i = i+1 ;
-	if m1 > m2 :
-		return(m1, l1, best_line1)
-	else :
-		return(m2, l2, best_line2)
+	for line in range(1, 13677):
+		description = str(database['Description courte'][line])
+		short_desc = str(database['Description longue FR'][line])
+		if (short_desc != "nan"):
+			description += " " 
+			description += short_desc
+		gamme_fam = str(database["Gamme - famille FR"][line])
+		description += " "
+		description += gamme_fam
+		similarity = tools.jaccard_similarity(Product, description .lower())
+
+		ten_most_similar[i] = (similarity, line)
+		insertion_sort(ten_most_similar, i) 
+		if (i < 10) :
+			i = i+1 
+	
+
+	return(ten_most_similar[0:9])
+
 
 
 
@@ -75,6 +92,8 @@ def identify_product(tokenized_sentence, products_set) :
 			product.append(w)
 	print("Produit identifié : ", product)
 	return(product)
+
+
 
 def identify_feature(tokenized_sentence, features_set) :
 	best_matches = tools.edit_distance(tokenized_sentence, features_set)
@@ -120,9 +139,14 @@ def ambiguous_words(product, feature, sentence) :
 		return(product, feature)
 
 
-def product_id(product, database) :
-	m, l, best_line = best_similarity(product, database)
-	return(database['Product ID'][l], best_line)
+
+
+def product_id(line, database) :
+	print("Product id : ", database['Product ID'][line]) 
+	print("corresponding product : ", database['Description courte'][line])
+
+
+
 
 def rank_score(score):
 	rank = []

@@ -11,7 +11,7 @@ nltk.download('wordnet')
 
 import tools
 
-product_data_path = '../socomec_chatbot/product_data_1 - MTC.xlsx'
+product_data_path = '../product_data_1 - MTC.xlsx'
 
 
 def define_database() :

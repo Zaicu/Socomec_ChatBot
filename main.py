@@ -40,9 +40,13 @@ def main() :
 		product += w
 		product += " "
 
-	p_ID, database_product = question_treatment.product_id(product, database)
-	print("The product has been identified as :" , database_product)
-	print("Product ID :", p_ID)
+	tab = question_treatment.best_similarity(product, database)
+	for elem in tab : 
+		print ("similarity : ", elem[0], " line : ", elem[1])
+		question_treatment.product_id(elem[1], database)
+	# p_ID, database_product = question_treatment.product_id(product, database)
+	# print("The product has been identified as :" , database_product)
+	# print("Product ID :", p_ID)
 
 
 main()

@@ -54,8 +54,6 @@ def identify_Etim_class(product, dictionary) :
 
 
 	
-	
-	
 
 
 #calcule la similarité entre le produit recherché
@@ -67,8 +65,9 @@ def best_similarity(Product, database) :
 	print("in best similarity, the product is :", Product)
 	n = 13677
 	
-	for line in range(1, 50):
-		description = str(database["Gamme - famille FR"][line]) + " " + str(database['Description courte'][line]) + " " + str(database['Description longue FR'][line])
+	for line in range(1, n):
+		description = str(database['Description courte'][line]) + " " + str(database['Description longue FR'][line])
+		#description = str(database['Gamme - famille FR'][line]) + " " + str(database['Description courte'][line]) + " " + str(database['Description longue FR'][line])
 
 		dist = tools.jaccard_similarity(Product, description .lower())
 		
