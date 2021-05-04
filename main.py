@@ -1,4 +1,5 @@
 from data_processing import define_database
+from data_processing import define_features_set
 from data_processing import products_set_and_dictionary
 
 
@@ -49,4 +50,8 @@ def main() :
 	# print("Product ID :", p_ID)
 
 
-main()
+def function() :
+	define_features_set() 
+
+
+function() 

@@ -20,6 +20,13 @@ def define_database() :
 	return(Products)
 
 
+def define_features_set() : 
+	features_set = {}
+	xls = pd.ExcelFile(product_data_path) 
+	E1506 = pd.read_excel(xls, 'EC001506', skiprows = [0,1,2])
+	for i in range (0,30) :
+		print(str(E1506.iat[0,i]))
+
 
 
 def find_maximum_weight(dictionary) : #dictionnaire de mots
@@ -31,6 +38,7 @@ def find_maximum_weight(dictionary) : #dictionnaire de mots
 
 
 
+
 def tf(dictionary):
 	#pour chaque dictionnaire ; trouver le poids max et diviser tous les poids par le poids max
 	for classes in dictionary :
@@ -38,6 +46,9 @@ def tf(dictionary):
 		for word in dictionary[classes] :
 			dictionary[classes][word] = dictionary[classes][word]/max
 	return dictionary
+
+
+
 
 def idf(dictionary, set_produit):
 	idf = {}
@@ -52,6 +63,9 @@ def idf(dictionary, set_produit):
 		idf[product] = math.log(nb_classes/idf[product])
 	return idf
 
+
+
+
 def set_weights(dictionary, set_produit) : #dictionnaire de dictionnaires :)
 	tf_ = tf(dictionary)
 	idf_ = idf(dictionary, set_produit)
@@ -59,6 +73,9 @@ def set_weights(dictionary, set_produit) : #dictionnaire de dictionnaires :)
 		for word, weights in words.items():
 			tf_[classes][word] = tf_[classes][word]*idf_[word]
 	return tf_
+
+
+
 
 #retourne les N meilleurs mots pour chaque classe
 def best_words(classes, N=10):
@@ -83,6 +100,9 @@ def best_words(classes, N=10):
 							best[classe][i + 1] = best[classe][i]
 							best[classe][i] = temp
 	return best
+
+
+
 
 #retourner l'ensemble sans doublons contenant tous les produits
 def products_set_and_dictionary(Products):
