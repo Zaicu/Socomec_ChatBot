@@ -8,7 +8,6 @@ import spacy
 import tools
 
 import nltk
-nltk.download('wordnet')
 
 stop_words = set(stopwords.words('french'))
 stop_words.add("quelle")
@@ -44,12 +43,12 @@ def insertion_sort (tab, n) :
 
 #product is the result of the  'identify_product'
 def identify_Etim_class(Product, dictionary) :
-	prdiction_etim_class = score(Product, dictionary)
-	print("Les scores des classes ETIM :")
-	print(prdiction_etim_class)
+	prediction_etim_class = score(Product, dictionary)
+	# print("Les scores des classes ETIM :")
+	# print(prediction_etim_class)
 
-	print("The etim class is :")
-	print(prdiction_etim_class[0][0])
+	# print("The etim class is :")
+	# print(prediction_etim_class[0][0])
 
 
 
@@ -160,7 +159,6 @@ def rank_score(score):
 	return rank
 
 def score(sentence, weights):
-	print("")
 	score = {}
 	for word_sentence in sentence:
 		for classes, words in weights.items():

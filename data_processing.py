@@ -6,10 +6,29 @@ from nltk.corpus import wordnet
 import numpy as np
 import spacy
 import nltk
+
 import math
-nltk.download('wordnet')
 
 import tools
+
+stop_words = set(stopwords.words('french'))
+stop_words.add("quelle")
+stop_words.add("quel")
+stop_words.add("quels")
+stop_words.add("combien")
+stop_words.add("?")
+stop_words.add("!")
+stop_words.add("bonjour")
+stop_words.add("svp")
+stop_words.add("bonsoir")
+stop_words.add(".")
+stop_words.add(",")
+stop_words.add("’")
+stop_words.add("-")
+stop_words.add("[")
+stop_words.add("]")
+stop_words.add("(")
+stop_words.add(")")
 
 product_data_path = '../product_data_1 - MTC.xlsx'
 
@@ -21,11 +40,29 @@ def define_database() :
 
 
 def define_features_set() : 
-	features_set = {}
+	features_set = set()
 	xls = pd.ExcelFile(product_data_path) 
 	E1506 = pd.read_excel(xls, 'EC001506', skiprows = [0,1,2])
+	E1506 = E1506.drop(E1506.columns[[1]], axis=1)  #remove second column (blank column) 
+
 	for i in range (0,30) :
-		print(str(E1506.iat[0,i]))
+
+		feature = str(E1506.iat[0,i]) + " " + str(E1506.iat[1,i])
+		feature = re.sub('\|', " ", feature)
+		feature = re.sub(';', " ", feature)
+		feature = re.sub('nan', "", feature)
+		feature = re.sub('([A-Z]*[a-z]*)\'([A-Z]*[a-z]*)', "\g<2>", feature)
+		feature = re.sub('EF[0-9]* ', "", feature)
+		list_features = word_tokenize(feature.lower())
+		for w in list_features :
+			if w not in stop_words:
+				features_set.add(w)
+	
+	return(features_set)
+
+
+
+
 
 
 
@@ -135,6 +172,5 @@ def products_set_and_dictionary(Products):
 				etim_classes[ec][word] += 1
 
 	etim_classes = set_weights(etim_classes, products_set)
-	#print(best_words(etim_classes))
-	print(etim_classes)
+
 	return products_set, etim_classes

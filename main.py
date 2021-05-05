@@ -13,12 +13,16 @@ def main() :
 	question = "sharis avec 2 moulateur de 120 volts et sans batterie"
 
 	products_set, dictionary = products_set_and_dictionary(database)
-	features_set = set(["ampère","tension", "voltage", "ampérage, courant"])
+	#features_set = set(["ampère","tension", "voltage", "ampérage, courant"])
+	features_set = define_features_set()
 
 
 	# sentence = sentence_filter(re.sub('([0-9]) *(Ampères|Ampère|ampères|ampère|ampere|Amp|amp)', "\g<1>A", question))
 	sentence = tools.sentence_filter(question)
-	print(question_treatment.score(sentence, dictionary))
+	class_score_tab = question_treatment.score(sentence, dictionary)
+
+	print("The ETIM Class of the product is probably :") 
+	print(class_score_tab[0])
 
 	product = question_treatment.identify_product(sentence, products_set)
 	feature = question_treatment.identify_feature(sentence, features_set)
@@ -50,8 +54,4 @@ def main() :
 	# print("Product ID :", p_ID)
 
 
-def function() :
-	define_features_set() 
-
-
-function() 
+main()

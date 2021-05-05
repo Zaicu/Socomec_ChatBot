@@ -61,7 +61,6 @@ def edit_distance(sentence, set) :
 	used_sentence = sentence
 
 	for word in used_sentence :
-		print("word :", word, type(word))
 		best_in_set = list_[0]
 		best_distance = nltk.edit_distance(list_[0], word)
 
