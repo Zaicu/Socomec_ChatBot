@@ -1,0 +1,11 @@
+Query : sharis avec 2 moulateur de 120 volts et sans batterie
+The ETIM Class of the product is : EC011878
+The true ETIM Class of the product is : EC011878
+The product is : ['sharys', '2', '120', 'volt', 'sans', 'batterie']
+The true product is : 
+The Feature is : ['i', 'poles']
+The true Feature is : 
+End of Query
+
+
+End of queries
