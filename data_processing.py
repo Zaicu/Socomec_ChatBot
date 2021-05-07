@@ -30,7 +30,7 @@ stop_words.add("]")
 stop_words.add("(")
 stop_words.add(")")
 
-product_data_path = '../product_data_1 - MTC.xlsx'
+product_data_path = '../socomec_chatbot/product_data_1 - MTC.xlsx'
 
 
 def define_database() :
@@ -39,11 +39,11 @@ def define_database() :
 	return(Products)
 
 
-def define_features_set() : 
+def define_features_set() :
 	features_set = set()
-	xls = pd.ExcelFile(product_data_path) 
+	xls = pd.ExcelFile(product_data_path)
 	E1506 = pd.read_excel(xls, 'EC001506', skiprows = [0,1,2])
-	E1506 = E1506.drop(E1506.columns[[1]], axis=1)  #remove second column (blank column) 
+	E1506 = E1506.drop(E1506.columns[[1]], axis=1)  #remove second column (blank column)
 
 	for i in range (0,30) :
 
@@ -57,7 +57,7 @@ def define_features_set() :
 		for w in list_features :
 			if w not in stop_words:
 				features_set.add(w)
-	
+
 	return(features_set)
 
 
@@ -108,7 +108,7 @@ def set_weights(dictionary, set_produit) : #dictionnaire de dictionnaires :)
 	idf_ = idf(dictionary, set_produit)
 	for classes, words in tf_.items():
 		for word, weights in words.items():
-			tf_[classes][word] = tf_[classes][word]*idf_[word]
+			tf_[classes][word] = math.log(1 + tf_[classes][word]*idf_[word])
 	return tf_
 
 

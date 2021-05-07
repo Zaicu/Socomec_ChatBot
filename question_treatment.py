@@ -6,6 +6,7 @@ from nltk.corpus import wordnet
 import numpy as np
 import spacy
 import tools
+import sys
 
 import nltk
 
@@ -27,17 +28,17 @@ stop_words.add("-")
 
 def exchange(tab, i, j) :
 	aux = tab[i]
-	tab[i] = tab[j] 
-	tab[j] = aux 
+	tab[i] = tab[j]
+	tab[j] = aux
 
 
 
-#n : endroit où est placé elem dans le tab 
-def insertion_sort (tab, n) : 
+#n : endroit où est placé elem dans le tab
+def insertion_sort (tab, n) :
 	i = n-1
 	while (i >= 0) and (tab[i+1][0] > tab[i][0]) :
-		exchange(tab, i, i+1) 
-		i = i-1 
+		exchange(tab, i, i+1)
+		i = i-1
 
 
 
@@ -56,16 +57,16 @@ def identify_Etim_class(Product, dictionary) :
 #la description courte de la database.
 def best_similarity(Product, database) :
 	ten_most_similar = [0 for i in range (11)]
-	m = 0 
-	l = 0 
+	m = 0
+	l = 0
 	best_line = ""
-	
+
 	i = 0
 	for line in range(1, 13677):
 		description = str(database['Description courte'][line])
 		short_desc = str(database['Description longue FR'][line])
 		if (short_desc != "nan"):
-			description += " " 
+			description += " "
 			description += short_desc
 		gamme_fam = str(database["Gamme - famille FR"][line])
 		description += " "
@@ -73,35 +74,56 @@ def best_similarity(Product, database) :
 		similarity = tools.jaccard_similarity(Product, description .lower())
 
 		ten_most_similar[i] = (similarity, line)
-		insertion_sort(ten_most_similar, i) 
+		insertion_sort(ten_most_similar, i)
 		if (i < 10) :
-			i = i+1 
-	
+			i = i+1
+
 
 	return(ten_most_similar[0:9])
 
 
 
 
-def identify_product(tokenized_sentence, products_set) :
-	best_matches = tools.edit_distance(tokenized_sentence, products_set)
+def best_sentence(sentence, products_set, features_set):
+	best_sentence = []
+	for index in range(len(sentence)):
+		max = sys.maxsize * 2 + 1
+		best_sentence.append([])
+		for product in products_set:
+			distance = nltk.edit_distance(sentence[index], product)
+			if (distance < max):
+				best_sentence[index] = [(product,'product')]
+				max = distance
+			elif (distance == max):
+				best_sentence[index].append((product,'product'))
+		for feature in features_set:
+			distance = nltk.edit_distance(sentence[index], feature)
+			if (distance < max):
+				best_sentence[index] = [(feature,'feature')]
+				max = distance
+			elif (distance == max):
+				best_sentence[index].append((feature,'feature'))
+	return best_sentence
+
+
+
+
+def identify_product(best_sentence) :
 	product = []
-	for (n,w) in best_matches :
-		if n <= 2 :
-			product.append(w)
-	print("Produit identifié : ", product)
+	for words in best_sentence:
+		for word in words:
+			if word[1] == 'product':
+				product.append(word[0])
 	return(product)
 
 
 
-def identify_feature(tokenized_sentence, features_set) :
-	best_matches = tools.edit_distance(tokenized_sentence, features_set)
+def identify_feature(best_sentence) :
 	feature = []
-	for (n,w) in best_matches :
-		if n <= 2 :
-			feature.append(w)
-
-	print("Feature identifiée : ", feature)
+	for words in best_sentence:
+		for word in words:
+			if word[1] == 'feature':
+				feature.append(word[0])
 	return(feature)
 
 
@@ -141,7 +163,7 @@ def ambiguous_words(product, feature, sentence) :
 
 
 def product_id(line, database) :
-	print("Product id : ", database['Product ID'][line]) 
+	print("Product id : ", database['Product ID'][line])
 	print("corresponding product : ", database['Description courte'][line])
 
 
@@ -162,8 +184,38 @@ def score(sentence, weights):
 	score = {}
 	for word_sentence in sentence:
 		for classes, words in weights.items():
-			if word_sentence in words:
+			if word_sentence[0] in words:
 				if not classes in score:
 					score[classes] = 0
-				score[classes] += weights[classes][word_sentence]
+				score[classes] += weights[classes][word_sentence[0]]
 	return rank_score(score)
+
+
+def best_score(best_sentence, weights):
+	# initialisation
+	stop = True
+	score_dict = []
+	n = len(best_sentence)
+	nb_words = []
+	compteur = []
+	sentence = [("","") for i in range(n)]
+	for i in range(n):
+		nb_words.append(len(best_sentence[i]))
+		compteur.append(0)
+
+	# on crée toutes les phrases
+	while stop:
+		for i in range(n):
+			sentence[i] = best_sentence[i][compteur[i]]
+		score_dict.append(score(sentence, weights))
+
+		# prochaine phrase
+		compteur[0] += 1
+		for i in range(n):
+			if compteur[i] == nb_words[i]:
+				compteur[i] = 0
+				if (i != n-1):
+					compteur[i+1] +=1
+				else:
+					stop = False
+	return score_dict
