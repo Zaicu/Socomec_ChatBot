@@ -30,8 +30,7 @@ stop_words.add("]")
 stop_words.add("(")
 stop_words.add(")")
 
-product_data_path = '../product_data_1 - MTC.xlsx'
-
+product_data_path = '../socomec_chatbot/product_data_1 - MTC.xlsx'
 
 def define_database() :
 	xls = pd.ExcelFile(product_data_path)
@@ -39,10 +38,20 @@ def define_database() :
 	return(Products)
 
 
+def nb_words_class(Products):
+	nb_words = {}
+	for ligne in range(1, 13677):
+		ec = Products['ETIM class code'][ligne]
+		if (not ec in nb_words):
+			nb_words[ec] = 0
+		if (Products['Description courte'][ligne] == Products['Description courte'][ligne] and Products['Description courte'][ligne] != 0):
+			nb_words[ec] += len(tools.sentence_filter(Products['Description courte'][ligne]))
+		if (Products['Description longue FR'][ligne] == Products['Description longue FR'][ligne] and Products['Description longue FR'][ligne] != 0):
+			nb_words[ec] += len(tools.sentence_filter(Products['Description longue FR'][ligne]))
+	return nb_words
 
 
-
-def find_maximum_weight(dictionary) : #dictionnaire de mots
+def find_maximum(dictionary) : #dictionnaire de mots
 	max = 0
 	for word in dictionary :
 		if dictionary[word] > max :
@@ -52,12 +61,16 @@ def find_maximum_weight(dictionary) : #dictionnaire de mots
 
 
 
-def tf(dictionary):
+def tf(dictionary, nb_words_class):
 	#pour chaque dictionnaire ; trouver le poids max et diviser tous les poids par le poids max
+	max_nb_words = find_maximum(nb_words_class)
 	for classes in dictionary :
-		max = find_maximum_weight(dictionary[classes])
+		max = 0
 		for word in dictionary[classes] :
-			dictionary[classes][word] = dictionary[classes][word]/max
+			if dictionary[classes][word] > max:
+				max = dictionary[classes][word]
+		for word in dictionary[classes] :
+			dictionary[classes][word] = dictionary[classes][word]*(0.5 + 0.5*nb_words_class[classes]/max_nb_words)#*(0.5 + 0.5*(nb_words_class[classes]/max))
 	return dictionary
 
 
@@ -79,12 +92,12 @@ def idf(dictionary, set_produit):
 
 
 
-def set_weights(dictionary, set_produit) : #dictionnaire de dictionnaires :)
-	tf_ = tf(dictionary)
+def set_weights(dictionary, set_produit, nb_words_class) : #dictionnaire de dictionnaires :)
+	tf_ = tf(dictionary, nb_words_class)
 	idf_ = idf(dictionary, set_produit)
 	for classes, words in tf_.items():
 		for word, weights in words.items():
-			tf_[classes][word] = math.log(1 + tf_[classes][word]*idf_[word])
+			tf_[classes][word] = tf_[classes][word]*idf_[word]
 	return tf_
 
 
@@ -147,7 +160,7 @@ def products_set_and_dictionary(Products):
 			else:
 				etim_classes[ec][word] += 1
 
-	etim_classes = set_weights(etim_classes, products_set)
+	etim_classes = set_weights(etim_classes, products_set, nb_words_class(Products))
 
 	return products_set, etim_classes
 
@@ -165,7 +178,7 @@ def features_set_and_dictionary() :
 
 	n = E1506.shape[1]
 
-	for i in range (0,n) : 
+	for i in range (0,n) :
 		feature = str(E1506.iat[0,i]) + " " + str(E1506.iat[1,i])
 		feature = re.sub('\|', " ", feature)
 		feature = re.sub(';', " ", feature)
@@ -182,9 +195,8 @@ def features_set_and_dictionary() :
 
 		if (not feature_id in features_dict) :
 			features_dict[feature_id] = list_features[1:]
-		
-		for elem in list_features : 
+
+		for elem in list_features :
 			features_set = features_set.union(set([elem]))
-	
+
 	return features_set, features_dict
-				

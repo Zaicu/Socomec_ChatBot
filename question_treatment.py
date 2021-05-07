@@ -44,6 +44,7 @@ def insertion_sort (tab, n) :
 
 #product is the result of the  'identify_product'
 def identify_Etim_class(Product, dictionary) :
+	print(Product)
 	prediction_etim_class = score(Product, dictionary)
 	# print("Les scores des classes ETIM :")
 	# print(prediction_etim_class)
@@ -172,17 +173,17 @@ def get_product_id(line, database) :
 
 
 
-def get_feature_id(feature, features_dict) : 
+def get_feature_id(feature, features_dict) :
 	tab = []
-	for f_id in features_dict : 
+	for f_id in features_dict :
 		count = 0
 		for f in features_dict[f_id] :
-			for word in feature : 
-				if f == word : 
-					count += 1 
+			for word in feature :
+				if f == word :
+					count += 1
 		tab.append((f_id, count))
-	
-	max_tab = tools.maximum(tab) 
+
+	max_tab = tools.maximum(tab)
 	return(max_tab[0])
 
 
@@ -190,21 +191,21 @@ def get_feature_id(feature, features_dict) :
 
 def get_product_line(product_id, product_page) :
 	column = product_page.iloc[:,0]
-	for i in range (2, len(column)) : 
+	for i in range (2, len(column)) :
 		current_id = column[i]
 		if product_id == current_id.lower() :
-			return(i) 
+			return(i)
 
 
 
 
 
-def get_feature_column(feature_id, product_page) : 
+def get_feature_column(feature_id, product_page) :
 	line = product_page.iloc[0]
-	for i in range (2, len(line)) : 
+	for i in range (2, len(line)) :
 		current_id = re.sub('(EF[0-9]*)\|(.*)', "\g<1>", line[i])
 		if feature_id == current_id.lower() :
-			return(i) 
+			return(i)
 
 
 def get_value(line, column, product_page) :
@@ -225,13 +226,20 @@ def rank_score(score):
 	return rank
 
 def score(sentence, weights):
+	nb_matches = {}
 	score = {}
 	for word_sentence in sentence:
 		for classes, words in weights.items():
-			if word_sentence[0] in words:
+			if word_sentence[0] in words and word_sentence[1] == 'product':
 				if not classes in score:
 					score[classes] = 0
+				if not classes in nb_matches:
+					nb_matches[classes] = 0
 				score[classes] += weights[classes][word_sentence[0]]
+				nb_matches[classes] += 1
+	for classes, _ in score.items():
+		#print(classes, ' : ', nb_matches[classes])
+		score[classes] *= nb_matches[classes]
 	return rank_score(score)
 
 
@@ -251,6 +259,7 @@ def best_score(best_sentence, weights):
 	while stop:
 		for i in range(n):
 			sentence[i] = best_sentence[i][compteur[i]]
+
 		score_dict.append(score(sentence, weights))
 
 		# prochaine phrase

@@ -8,7 +8,7 @@ from data_processing import products_set_and_dictionary
 import question_treatment
 import tools
 
-product_data_path = '../product_data_1 - MTC.xlsx'
+product_data_path = '../socomec_chatbot/product_data_1 - MTC.xlsx'
 
 
 def main() :
@@ -37,6 +37,9 @@ def main() :
 
 	print("words that are part of both :", list(set(product)&set(feature)))
 
+	# features_dictionnary doit etre {[EC000216] : {[EF000] : [tension, fonctionnement]}}
+	#sentence = question_treatment.best(best_sentence, products_dictionary, features_dictionary)
+
 	#class_score_tab = question_treatment.score(sentence, products_dictionary)
 
 	#print("The ETIM Class of the product is probably :")
@@ -50,12 +53,12 @@ def main() :
 	print ("The product is :" , p)
 	print ("The Feature is :", f)
 
-	#récupérer l'id de la feature 
+	#récupérer l'id de la feature
 	feature_id = question_treatment.get_feature_id(f, features_dict)
 
 	print("feature_id :", feature_id)
 
-	etim_class = question_treatment.identify_Etim_class(p, products_dictionary)
+	#etim_class = question_treatment.identify_Etim_class(p, products_dictionary)
 
 
 	xls = pd.ExcelFile(product_data_path)
@@ -75,12 +78,12 @@ def main() :
 	# for elem in tab :
 	# 	print ("similarity : ", elem[0], " line : ", elem[1])
 	# 	question_treatment.get_product_id(elem[1], database)
-	
+
 	product_id = question_treatment.get_product_id(tab[0][1], database)
 	product_line = question_treatment.get_product_line(product_id, product_page)
 
 	print("product_id : ", product_id, "in line : ", product_line+1)
-	
+
 	print("RESPONDE A LA QUESTIN :::", question_treatment.get_value(product_line, feature_column, product_page))
 	# p_ID, database_product = question_treatment.get_product_id(product, database)
 	# print("The product has been identified as :" , database_product)
