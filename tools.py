@@ -77,3 +77,17 @@ def edit_distance(sentence, set) :
 		dist.append((best_distance,best_in_set))
 
 	return(dist)
+
+
+
+
+def maximum(tab) : 
+	m = 0
+	id_max = 0
+	for index, elem in enumerate(tab) :
+		f_id, x = elem 
+		if x > m : 
+			id_max = index 
+			m = x 
+	
+	return tab[id_max]

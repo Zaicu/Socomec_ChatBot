@@ -50,6 +50,7 @@ def identify_Etim_class(Product, dictionary) :
 
 	# print("The etim class is :")
 	# print(prediction_etim_class[0][0])
+	return(prediction_etim_class[0][0])
 
 
 
@@ -86,7 +87,9 @@ def best_similarity(Product, database) :
 
 def best_sentence(sentence, products_set, features_set):
 	best_sentence = []
+
 	for index in range(len(sentence)):
+
 		max = sys.maxsize * 2 + 1
 		best_sentence.append([])
 		for product in products_set:
@@ -96,6 +99,7 @@ def best_sentence(sentence, products_set, features_set):
 				max = distance
 			elif (distance == max):
 				best_sentence[index].append((product,'product'))
+
 		for feature in features_set:
 			distance = nltk.edit_distance(sentence[index], feature)
 			if (distance < max):
@@ -162,9 +166,49 @@ def ambiguous_words(product, feature, sentence) :
 
 
 
-def product_id(line, database) :
-	print("Product id : ", database['Product ID'][line])
-	print("corresponding product : ", database['Description courte'][line])
+def get_product_id(line, database) :
+	return(database['Product ID'][line])
+
+
+
+
+def get_feature_id(feature, features_dict) : 
+	tab = []
+	for f_id in features_dict : 
+		count = 0
+		for f in features_dict[f_id] :
+			for word in feature : 
+				if f == word : 
+					count += 1 
+		tab.append((f_id, count))
+	
+	max_tab = tools.maximum(tab) 
+	return(max_tab[0])
+
+
+
+
+def get_product_line(product_id, product_page) :
+	column = product_page.iloc[:,0]
+	for i in range (2, len(column)) : 
+		current_id = column[i]
+		if product_id == current_id.lower() :
+			return(i) 
+
+
+
+
+
+def get_feature_column(feature_id, product_page) : 
+	line = product_page.iloc[0]
+	for i in range (2, len(line)) : 
+		current_id = re.sub('(EF[0-9]*)\|(.*)', "\g<1>", line[i])
+		if feature_id == current_id.lower() :
+			return(i) 
+
+
+def get_value(line, column, product_page) :
+	return product_page.iloc[line, column]
 
 
 

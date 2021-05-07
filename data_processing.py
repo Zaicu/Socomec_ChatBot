@@ -30,37 +30,13 @@ stop_words.add("]")
 stop_words.add("(")
 stop_words.add(")")
 
-product_data_path = '../socomec_chatbot/product_data_1 - MTC.xlsx'
+product_data_path = '../product_data_1 - MTC.xlsx'
 
 
 def define_database() :
 	xls = pd.ExcelFile(product_data_path)
 	Products = pd.read_excel(xls, 'Products', skiprows = [0])
 	return(Products)
-
-
-def define_features_set() :
-	features_set = set()
-	xls = pd.ExcelFile(product_data_path)
-	E1506 = pd.read_excel(xls, 'EC001506', skiprows = [0,1,2])
-	E1506 = E1506.drop(E1506.columns[[1]], axis=1)  #remove second column (blank column)
-
-	for i in range (0,30) :
-
-		feature = str(E1506.iat[0,i]) + " " + str(E1506.iat[1,i])
-		feature = re.sub('\|', " ", feature)
-		feature = re.sub(';', " ", feature)
-		feature = re.sub('nan', "", feature)
-		feature = re.sub('([A-Z]*[a-z]*)\'([A-Z]*[a-z]*)', "\g<2>", feature)
-		feature = re.sub('EF[0-9]* ', "", feature)
-		list_features = word_tokenize(feature.lower())
-		for w in list_features :
-			if w not in stop_words:
-				features_set.add(w)
-
-	return(features_set)
-
-
 
 
 
@@ -174,3 +150,41 @@ def products_set_and_dictionary(Products):
 	etim_classes = set_weights(etim_classes, products_set)
 
 	return products_set, etim_classes
+
+
+
+#faire un dictionnaire où quand tu mets la classe il te renvoie tous les features de cette classe
+
+
+def features_set_and_dictionary() :
+	features_dict = {}
+	features_set = set()
+	xls = pd.ExcelFile(product_data_path)
+	E1506 = pd.read_excel(xls, 'EC001506', skiprows = [0,1,2])
+	E1506 = E1506.drop(E1506.columns[[1]], axis=1)  #remove second column (blank column)
+
+	n = E1506.shape[1]
+
+	for i in range (0,n) : 
+		feature = str(E1506.iat[0,i]) + " " + str(E1506.iat[1,i])
+		feature = re.sub('\|', " ", feature)
+		feature = re.sub(';', " ", feature)
+		feature = re.sub('nan', "", feature)
+		feature = re.sub('([A-Z]*[a-z]*)\'([A-Z]*[a-z]*)', "\g<2>", feature)
+		list_features = word_tokenize(feature.lower())
+
+		feature_id = list_features[0]
+
+
+		for index, w in enumerate(list_features):
+			if w in stop_words:
+				list_features.pop(index)
+
+		if (not feature_id in features_dict) :
+			features_dict[feature_id] = list_features[1:]
+		
+		for elem in list_features : 
+			features_set = features_set.union(set([elem]))
+	
+	return features_set, features_dict
+				
