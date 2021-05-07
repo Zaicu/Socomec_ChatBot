@@ -30,7 +30,7 @@ stop_words.add("]")
 stop_words.add("(")
 stop_words.add(")")
 
-product_data_path = '../socomec_chatbot/product_data_1 - MTC.xlsx'
+product_data_path = 'product_data_1_-_MTC.xlsx'
 
 def define_database() :
 	xls = pd.ExcelFile(product_data_path)
