@@ -8,7 +8,7 @@ from data_processing import products_set_and_dictionary
 import question_treatment
 import tools
 
-product_data_path = '../product_data_1 - MTC.xlsx'
+product_data_path = 'product_data_1_-_MTC.xlsx'
 
 
 def main() :

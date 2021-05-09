@@ -1,10 +1,59 @@
-Query : sharis avec 2 moulateur de 120 volts et sans batterie
-The ETIM Class of the product is : EC011878
-The true ETIM Class of the product is : EC011878
-The product is : ['sharys', '2', '120', 'volt', 'sans', 'batterie']
-The true product is : 
-The Feature is : ['i', 'poles']
-The true Feature is : 
+Beginning of queries
+
+Query : Classe de précision COUNTIS E33
+The true ETIM Class of the product is : EC001506
+The product is : 48502100
+The true product is : 48503012
+The Feature is : ef008842
+The true Feature is : ef008842
+End of Query
+
+Query : Quel est le poids de la sortie impulsion du E27
+The true ETIM Class of the product is : EC001506
+The product is : 48503054
+The true product is : 48503054
+The Feature is : ef008840
+The true Feature is : ef008840
+End of Query
+
+Query : Courant de charge COUNTIS E20
+The true ETIM Class of the product is : EC001506
+The product is : 48502100
+The true product is : 48503003
+The Feature is : ef008844
+The true Feature is : ?
+End of Query
+
+Query : Quel courant nominal pour le E21
+The true ETIM Class of the product is : EC001506
+The product is : 48503004
+The true product is : 48503004
+The Feature is : ef008873
+The true Feature is : ef008873
+End of Query
+
+Query : Courant max E00
+The true ETIM Class of the product is : EC001506
+The product is : MOD-OP-EBP45
+The true product is : 48503019
+The Feature is : ef000877
+The true Feature is : ef000877
+End of Query
+
+Query : Quel I max pour le E00
+The true ETIM Class of the product is : EC001506
+The product is : MOD-OP-EBP45
+The true product is : 48503019
+The Feature is : ef000877
+The true Feature is : ef000877
+End of Query
+
+Query : E02 courant maximal
+The true ETIM Class of the product is : EC001506
+The product is : P0005053
+The true product is : 48503020
+The Feature is : ef000877
+The true Feature is : ef000877
 End of Query
 
 
