@@ -8,7 +8,7 @@ from data_processing import products_set_and_dictionary
 import question_treatment
 import tools
 
-product_data_path = 'product_data_1_-_MTC.xlsx'
+product_data_path = '../product_data_1 - MTC.xlsx'
 
 
 def main() :
@@ -24,12 +24,11 @@ def main() :
 	# sentence = sentence_filter(re.sub('([0-9]) *(Ampères|Ampère|ampères|ampère|ampere|Amp|amp)', "\g<1>A", question))
 	sentence = tools.sentence_filter(question)
 
-	best_sentence = question_treatment.best_sentence(sentence, products_set, features_set)
-	print("best sentence :")
+	best_sentence = question_treatment.question_identification(sentence, products_set, features_set)
+	print("best identification :")
 	print(best_sentence)
 
-	product = question_treatment.identify_product(best_sentence)
-	feature = question_treatment.identify_feature(best_sentence)
+	product, feature = question_treatment.identify_product_and_feature(best_sentence)
 
 
 	print("words that could be part of the product description :", product)

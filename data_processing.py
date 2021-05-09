@@ -30,7 +30,7 @@ stop_words.add("]")
 stop_words.add("(")
 stop_words.add(")")
 
-product_data_path = 'product_data_1_-_MTC.xlsx'
+product_data_path = '../product_data_1 - MTC.xlsx'
 
 def define_database() :
 	xls = pd.ExcelFile(product_data_path)
@@ -49,6 +49,8 @@ def nb_words_class(Products):
 		if (Products['Description longue FR'][ligne] == Products['Description longue FR'][ligne] and Products['Description longue FR'][ligne] != 0):
 			nb_words[ec] += len(tools.sentence_filter(Products['Description longue FR'][ligne]))
 	return nb_words
+
+
 
 
 def find_maximum(dictionary) : #dictionnaire de mots
@@ -167,7 +169,7 @@ def products_set_and_dictionary(Products):
 
 
 #faire un dictionnaire où quand tu mets la classe il te renvoie tous les features de cette classe
-
+# -> generalisation de features_set_and_dictionary quand on aura tous les synonymes en français
 
 def features_set_and_dictionary() :
 	features_dict = {}

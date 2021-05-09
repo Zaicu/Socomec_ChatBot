@@ -86,50 +86,46 @@ def best_similarity(Product, database) :
 
 
 
-def best_sentence(sentence, products_set, features_set):
+def question_identification(sentence, products_set, features_set):
 	best_sentence = []
 
 	for index in range(len(sentence)):
 
-		max = sys.maxsize * 2 + 1
+		maxi = sys.maxsize * 2 + 1
 		best_sentence.append([])
 		for product in products_set:
 			distance = nltk.edit_distance(sentence[index], product)
-			if (distance < max):
+			if (distance < maxi):
 				best_sentence[index] = [(product,'product')]
-				max = distance
-			elif (distance == max):
+				maxi = distance
+			elif (distance == maxi):
 				best_sentence[index].append((product,'product'))
 
 		for feature in features_set:
 			distance = nltk.edit_distance(sentence[index], feature)
-			if (distance < max):
+			if (distance < maxi):
 				best_sentence[index] = [(feature,'feature')]
-				max = distance
-			elif (distance == max):
+				maxi = distance
+			elif (distance == maxi):
 				best_sentence[index].append((feature,'feature'))
 	return best_sentence
 
 
 
 
-def identify_product(best_sentence) :
+def identify_product_and_feature(best_sentence) :
 	product = []
+	feature = []
 	for words in best_sentence:
 		for word in words:
 			if word[1] == 'product':
 				product.append(word[0])
-	return(product)
-
-
-
-def identify_feature(best_sentence) :
-	feature = []
-	for words in best_sentence:
-		for word in words:
-			if word[1] == 'feature':
+			else : 
 				feature.append(word[0])
-	return(feature)
+	return(product, feature)
+
+
+
 
 
 
