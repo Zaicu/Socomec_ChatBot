@@ -32,4 +32,22 @@ E02 courant maximal
 EC001506
 48503020
 EF000877
+
+
 end
+
+
+Caractéristiques
+EF005441 : type de compteur
+EF008873 : courant nominal
+EF000877 : courant max
+EF008871 : tension nominale
+EF000416 : fréquence
+EF008842 : classe de précision
+EF008843 : nombre de pôles
+EF000010 : modèle
+EF007135 : type d'énergie
+EF000073 : Adapté à
+EF008836 : calibration
+EF008838 : sortie impulsion
+EF008840 : poids de sortie impulsion
