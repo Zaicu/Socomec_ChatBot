@@ -3,7 +3,7 @@ Beginning of queries
 Query : Classe de précision COUNTIS E33
 The ETIM Class of the product is : EC001506
 The true ETIM Class of the product is : EC001506
-The product is : 48502100
+The product is : 48503012
 The true product is : 48503012
 The Feature is : ef008842
 The true Feature is : ef008842
@@ -18,15 +18,6 @@ The Feature is : ef008840
 The true Feature is : ef008840
 End of Query
 
-Query : Courant de charge COUNTIS E20
-The ETIM Class of the product is : EC001506
-The true ETIM Class of the product is : EC001506
-The product is : 48502100
-The true product is : 48503003
-The Feature is : ef008844
-The true Feature is : ?
-End of Query
-
 Query : Quel courant nominal pour le E21
 The ETIM Class of the product is : EC001506
 The true ETIM Class of the product is : EC001506
@@ -39,16 +30,16 @@ End of Query
 Query : Courant max E00
 The ETIM Class of the product is : EC001506
 The true ETIM Class of the product is : EC001506
-The product is : MOD-OP-EBP45
+The product is : 48290599
 The true product is : 48503019
-The Feature is : ef008873
+The Feature is : ef000877
 The true Feature is : ef000877
 End of Query
 
 Query : Quel I max pour le E00
 The ETIM Class of the product is : EC001506
 The true ETIM Class of the product is : EC001506
-The product is : 42606002
+The product is : 48503019
 The true product is : 48503019
 The Feature is : ef000877
 The true Feature is : ef000877
@@ -57,10 +48,154 @@ End of Query
 Query : E02 courant maximal
 The ETIM Class of the product is : EC001506
 The true ETIM Class of the product is : EC001506
-The product is : P0005053
+The product is : 48290110
 The true product is : 48503020
-The Feature is : ef008873
+The Feature is : ef000877
 The true Feature is : ef000877
+End of Query
+
+Query : Quelle est la fréquence du COUNTIS E16
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503046
+The true product is : 48503034
+The Feature is : ef000416
+The true Feature is : ef000416
+End of Query
+
+Query : type d'énergie du E02
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503020
+The true product is : 48503020
+The Feature is : ef007135
+The true Feature is : ef007135
+End of Query
+
+Query : sortie impulsion COUNTIS E04 1PH 40A MODBUS MID
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503040
+The true product is : 48503040
+The Feature is : ef008838
+The true Feature is : ef008838
+End of Query
+
+Query : E10 calibration
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503000
+The true product is : 48503000
+The Feature is : ef008836
+The true Feature is : ef008836
+End of Query
+
+Query : type compteur COUNTIS E44R
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503022
+The true product is : 48503022
+The Feature is : ef005441
+The true Feature is : ef005441
+End of Query
+
+Query : quel est le courant max du COUNTIS 40A MODBUS MID
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503040
+The true product is : 48503040
+The Feature is : ef008837
+The true Feature is : ef000877
+End of Query
+
+Query : Pour E05, modèle
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503041
+The true product is : 48503041
+The Feature is : id
+The true Feature is : ef000010
+End of Query
+
+Query : COUNTIS M-BUS MID 40A
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503042
+The true product is : 48503042
+The Feature is : id
+The true Feature is : ef008843
+End of Query
+
+Query : De quel type est le compteur countis E02 ?
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503020
+The true product is : 48503020
+The Feature is : ef005441
+The true Feature is : ef005441
+End of Query
+
+Query : Quelle est la fréquence du E16 1PH ?
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503046
+The true product is : 48503034
+The Feature is : ef000416
+The true Feature is : ef000416
+End of Query
+
+Query : Quelle est la tension du countis E02 1PH ?
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503020
+The true product is : 48503020
+The Feature is : ef008871
+The true Feature is : ef008871
+End of Query
+
+Query : Quel est le courant max du E53 ?
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503011
+The true product is : 48503011
+The Feature is : ef000877
+The true Feature is : ef000877
+End of Query
+
+Query : Quel est le courant maximal du E53 ?
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503011
+The true product is : 48503011
+The Feature is : ef000877
+The true Feature is : ef000877
+End of Query
+
+Query : Pour le countis E00 1PH, quelle est la sortie d'impulsion ?
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503019
+The true product is : 48503019
+The Feature is : ef008838
+The true Feature is : ef008838
+End of Query
+
+Query : modèle countis 40A modbus svp ?
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503039
+The true product is : 48503039
+The Feature is : ef000010
+The true Feature is : ef000010
+End of Query
+
+Query : combien de pôles possède le countis E12 MID ?
+The ETIM Class of the product is : EC001506
+The true ETIM Class of the product is : EC001506
+The product is : 48503002
+The true product is : 48503002
+The Feature is : ef008837
+The true Feature is : ef008843
 End of Query
 
 
