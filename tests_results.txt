@@ -1,6 +1,7 @@
 Beginning of queries
 
 Query : Classe de précision COUNTIS E33
+The ETIM Class of the product is : EC001506
 The true ETIM Class of the product is : EC001506
 The product is : 48502100
 The true product is : 48503012
@@ -9,6 +10,7 @@ The true Feature is : ef008842
 End of Query
 
 Query : Quel est le poids de la sortie impulsion du E27
+The ETIM Class of the product is : EC001506
 The true ETIM Class of the product is : EC001506
 The product is : 48503054
 The true product is : 48503054
@@ -17,6 +19,7 @@ The true Feature is : ef008840
 End of Query
 
 Query : Courant de charge COUNTIS E20
+The ETIM Class of the product is : EC001506
 The true ETIM Class of the product is : EC001506
 The product is : 48502100
 The true product is : 48503003
@@ -25,6 +28,7 @@ The true Feature is : ?
 End of Query
 
 Query : Quel courant nominal pour le E21
+The ETIM Class of the product is : EC001506
 The true ETIM Class of the product is : EC001506
 The product is : 48503004
 The true product is : 48503004
@@ -33,26 +37,29 @@ The true Feature is : ef008873
 End of Query
 
 Query : Courant max E00
+The ETIM Class of the product is : EC001506
 The true ETIM Class of the product is : EC001506
 The product is : MOD-OP-EBP45
 The true product is : 48503019
-The Feature is : ef000877
+The Feature is : ef008873
 The true Feature is : ef000877
 End of Query
 
 Query : Quel I max pour le E00
+The ETIM Class of the product is : EC001506
 The true ETIM Class of the product is : EC001506
-The product is : MOD-OP-EBP45
+The product is : 42606002
 The true product is : 48503019
 The Feature is : ef000877
 The true Feature is : ef000877
 End of Query
 
 Query : E02 courant maximal
+The ETIM Class of the product is : EC001506
 The true ETIM Class of the product is : EC001506
 The product is : P0005053
 The true product is : 48503020
-The Feature is : ef000877
+The Feature is : ef008873
 The true Feature is : ef000877
 End of Query
 

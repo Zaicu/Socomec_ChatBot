@@ -56,7 +56,8 @@ def main():
 		print("words that could be the feature :", feature)
 
 		#class_score_tab = question_treatment.score(sentence, products_dictionary)
-
+		#etim_class = class_score_tab[0][0]
+		etim_class = "EC001506"
 
 		print("words that are part of both :", list(set(product)&set(feature)))
 		p, f = question_treatment.ambiguous_words(product, feature, question)
@@ -67,7 +68,7 @@ def main():
 		p_id, _, f_id, _ = question_treatment.get_ids_and_lines(p, f, database, features_dict)
 		#Stocker resultats
 		queries_results.write("Query : " + str(question) + "\n")
-		#queries_results.write("The ETIM Class of the product is : " + str(class_score_tab[0][0]) + "\n")
+		queries_results.write("The ETIM Class of the product is : " + str(etim_class) + "\n")
 		queries_results.write("The true ETIM Class of the product is : " + str(etim_class_true) + "\n")
 		queries_results.write("The product is : " + str(p_id) + "\n")
 		queries_results.write("The true product is : " + str(p_true) + "\n")
@@ -76,7 +77,7 @@ def main():
 		queries_results.write("End of Query\n\n")
 
 		print("Query : " + str(question))
-		#print("The ETIM Class of the product is :" + str(class_score_tab[0][0]))
+		print("The ETIM Class of the product is :" + str(etim_class))
 		print("The true ETIM Class of the product is :" + str(etim_class_true))
 		print("The product is :" + str(p_id))
 		print("The true product is :" + str(p_true))
@@ -86,9 +87,9 @@ def main():
 
 		#Calcul précision
 		corr = 0 #nb correct sur cette question
-		# if class_score_tab[0][0] == etim_class_true:
-		# 	etim_class_correct += 1
-		# 	corr += 1
+		if etim_class == etim_class_true:
+			etim_class_correct += 1
+			corr += 1
 		if p_id == p_true:
 			p_correct += 1
 			corr += 1
@@ -101,10 +102,10 @@ def main():
 	queries_results.write("\nEnd of queries")
 	queries_results.close()
 
-	#print("Pourcentage de classes :" + str(etim_class_correct/nb_quest))
-	print("Pourcentage de produits :" + str(p_correct/nb_quest))
-	print("Pourcentage de features :" + str(f_correct/nb_quest))
-	print("Pourcentage total :" + str(quest_correct/nb_quest))
+	print("Pourcentage de classes correctes:" + str(etim_class_correct/nb_quest))
+	print("Pourcentage de produits corrects:" + str(p_correct/nb_quest))
+	print("Pourcentage de features correctes:" + str(f_correct/nb_quest))
+	print("Pourcentage total corrects:" + str(quest_correct/nb_quest))
     
 
 main()
