@@ -1,5 +1,35 @@
-sharis avec 2 moulateur de 120 volts et sans batterie
-EC011878
+Classe de précision COUNTIS E33
+EC001506
+48503012
+EF008842
 
+Quel est le poids de la sortie impulsion du E27
+EC001506
+48503054
+EF008840
 
+Courant de charge COUNTIS E20
+EC001506
+48503003
+?
+
+Quel courant nominal pour le E21
+EC001506
+48503004
+EF008873
+
+Courant max E00
+EC001506
+48503019
+EF000877
+
+Quel I max pour le E00
+EC001506
+48503019
+EF000877
+
+E02 courant maximal
+EC001506
+48503020
+EF000877
 end

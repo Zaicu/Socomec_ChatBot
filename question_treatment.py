@@ -269,3 +269,27 @@ def best_score(best_sentence, weights):
 				else:
 					stop = False
 	return score_dict
+
+
+def get_ids_and_lines(p, f, database, features_dict, path_to_product_data='product_data_1_-_MTC.xlsx', etim_class="EC001506") :
+	#récupérer l'id de la feature
+	feature_id = get_feature_id(f, features_dict)
+
+	#récupérer la colonne de la feature
+	xls = pd.ExcelFile(path_to_product_data)
+	product_page = pd.read_excel(xls, etim_class, skiprows = [0,1,2])
+
+	feature_column = get_feature_column(feature_id, product_page)
+	print("feature_id : ", feature_id, "in column : ", feature_column+1)
+
+	#récupérer l'id ddu produit
+	product = ""
+	for w in p :
+		product += w
+		product += " "
+
+	tab = best_similarity(product, database)
+	product_id = get_product_id(tab[0][1], database)
+	product_line = get_product_line(product_id, product_page)
+
+	return product_id, product_line, feature_id, feature_column
