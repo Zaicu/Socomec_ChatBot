@@ -67,6 +67,48 @@ COUNTIS M-BUS MID 40A
 EC001506
 48503042
 EF008843
+
+De quel type est le compteur countis E02 ? 
+EC001506
+48503020
+EF005441
+
+Quelle est la fréquence du E16 1PH ? 
+EC001506
+48503034
+EF000416
+
+Quelle est la tension du countis E02 1PH ? 
+EC001506
+48503020
+EF008871
+
+Quel est le courant max du E53 ? 
+EC001506
+48503011
+EF000877
+
+Quel est le courant maximal du E53 ? 
+EC001506
+48503011
+EF000877
+
+Pour le countis E00 1PH, quelle est la sortie d'impulsion ? 
+EC001506
+48503019
+EF008838
+
+modèle countis 40A modbus svp ?
+EC001506
+48503039
+EF000010
+
+
+combien de pôles possède le countis E12 MID ? 
+EC001506
+48503002
+EF008843
+
 end
 
 
