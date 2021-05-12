@@ -49,8 +49,7 @@ def jaccard_similarity(s1, s2) :
 	list1 = word_tokenize(s1)
 	list2 = word_tokenize(s2)
 	intersection = len(list(set(list1).intersection(list2)))
-	union = (len(list1) + len(list2)) - intersection
-	return (float(intersection) / union)
+	return (float(intersection))
 
 
 

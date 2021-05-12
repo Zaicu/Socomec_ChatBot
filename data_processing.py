@@ -163,7 +163,6 @@ def products_set_and_dictionary(Products):
 				etim_classes[ec][word] += 1
 
 	etim_classes = set_weights(etim_classes, products_set, nb_words_class(Products))
-
 	return products_set, etim_classes
 
 

@@ -191,6 +191,7 @@ def get_product_line(product_id, product_page) :
 		current_id = column[i]
 		if product_id == current_id.lower() :
 			return(i)
+	raise ValueError("in get_product_line, couldn't fine the product_id. Wrong ETIM Class")
 
 
 
