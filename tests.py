@@ -57,7 +57,7 @@ def main():
 
 		#class_score_tab = question_treatment.score(sentence, products_dictionary)
 		#etim_class = class_score_tab[0][0]
-		etim_class = "EC001506"
+		etim_class = question_treatment.best_score(best_sentence, products_dictionary)
 
 		print("words that are part of both :", list(set(product)&set(feature)))
 		p, f = question_treatment.ambiguous_words(product, feature, question)

@@ -45,7 +45,7 @@ def main() :
 	#print(class_score_tab[0])
 
 	# print("DICTIONNAIRES DE SCORES :")
-	# print(question_treatment.best_score(best_sentence, products_dictionary))
+	print(question_treatment.best_score(best_sentence, products_dictionary))
 
 	p, f = question_treatment.ambiguous_words(product, feature, question)
 

@@ -1,0 +1,36 @@
+questions_treatment.py :
+	exchange -> ?
+	insertion_sort -> ?
+	identify_Etim_class -> questions_treatment
+	best_similarity -> distance
+	question_identification -> questions_treatment
+	identify_product_and_feature -> questions_treatment
+	ambiguous_words -> questions_treatment
+	get_product_id -> extraction_database
+	get_feature_id -> extraction_database
+	get_product_line -> extraction_database
+	get_feature_column -> extraction_database
+	get_value -> extraction_database
+	rank_score -> distance
+	score -> distance
+	best_score -> distance
+	get_ids_and_lines -> extraction_database
+
+tools.py :
+	sentence_filter -> questions_treatment
+	jaccard_similarity -> distance
+	edit_distance -> distance
+	maximum -> distance / ?
+
+data_processing.py :
+	define_database -> extraction_database
+	nb_words_class -> ?
+	find_maximum -> distance / ?
+	tf -> distance
+	idf -> distance
+	set_weights -> ?
+	best_words -> distance
+	products_set_and_dictionary -> extraction_database
+	features_set_and_dictionary -> extraction_database
+
+questions_tests :

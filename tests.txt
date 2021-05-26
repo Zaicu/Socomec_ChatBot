@@ -103,12 +103,10 @@ EC001506
 48503039
 EF000010
 
-
 combien de pôles possède le countis E12 MID ? 
 EC001506
 48503002
 EF008843
-
 end
 
 
